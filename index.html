@@ -15,24 +15,30 @@
         <!-- Sidenav -->
         <nav class="sidenav" id="sidenav">
             <div class="sidenav-header">
-                <i class="fas fa-shield-alt logo-icon"></i>
-                <span class="logo-text">IP Dashboard</span>
+                <button class="sidenav-toggle-btn" id="sidenavToggleBtn" aria-label="Toggle Sidenav">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="logo-container">
+                    <i class="fas fa-shield-alt logo-icon"></i>
+                    <span class="logo-text">IP Dashboard</span>
+                </div>
             </div>
             <ul class="sidenav-menu">
-                <li><a href="#scan" class="nav-link active" data-target="scanSection"><i class="fas fa-search"></i> Scan IP</a></li>
-                <li><a href="#history" class="nav-link" data-target="historySectionFull"><i class="fas fa-history"></i> Scan History</a></li>
-                <li><a href="#settings" class="nav-link" data-target="settingsSection"><i class="fas fa-cog"></i> Settings</a></li>
-                <li><a href="#about" class="nav-link" data-target="aboutSection"><i class="fas fa-info-circle"></i> About</a></li>
+                <li><a href="#scan" class="nav-link active" data-target="scanSection"><i class="fas fa-search"></i> <span class="nav-text-label">Scan IP</span></a></li>
+                <li><a href="#history" class="nav-link" data-target="historySectionFull"><i class="fas fa-history"></i> <span class="nav-text-label">Scan History</span></a></li>
+                <li><a href="#settings" class="nav-link" data-target="settingsSection"><i class="fas fa-cog"></i> <span class="nav-text-label">Settings</span></a></li>
+                <li><a href="#about" class="nav-link" data-target="aboutSection"><i class="fas fa-info-circle"></i> <span class="nav-text-label">About</span></a></li>
             </ul>
             <div class="theme-switcher-container-sidenav">
-                <button id="themeToggleBtn" class="btn-theme-toggle">
+                <button id="themeToggleBtn" class="btn-theme-toggle" aria-label="Toggle Theme">
                     <i class="fas fa-moon"></i> <!-- Icon changes with JS -->
+                    <span class="nav-text-label">Toggle Theme</span>
                 </button>
             </div>
         </nav>
 
         <!-- Main Content Area -->
-        <main class="main-content">
+        <main class="main-content" id="mainContent">
             <!-- Scan IP Section (Default) -->
             <section id="scanSection" class="content-section active">
                 <div class="header">
@@ -48,7 +54,7 @@
 8.8.8.8
 1.1.1.1
 45.128.232.229
-185.199.108.153" maxlength="500"></textarea>
+185.199.108.153" maxlength="500" aria-label="IP Addresses Input"></textarea>
                                 <div class="char-counter"><span id="charCount">0</span>/500</div>
                             </div>
                         </div>
@@ -59,8 +65,8 @@
                             </div>
                         </div>
                     </div>
-                    <div id="apiStatusMessagesScan"></div> 
-                    <div class="loading" id="loading">
+                    <div id="apiStatusMessagesScan" role="status" aria-live="polite"></div> 
+                    <div class="loading" id="loading" role="status" aria-live="assertive">
                         <div class="spinner"></div><p>Scanning IP addresses...</p>
                     </div>
                     <div class="results-container" id="resultsContainer"></div>
@@ -75,18 +81,18 @@
                 </div>
                 <div class="scanner-card">
                     <div class="history-controls">
-                         <input type="text" id="historySearchInput" placeholder="Search history by IP...">
+                         <input type="text" id="historySearchInput" placeholder="Search history by IP..." aria-label="Search Scan History">
                          <button id="clearHistoryBtn" class="btn btn-secondary btn-small"><i class="fas fa-trash-alt"></i> Clear All History</button>
                     </div>
                     <div class="history-table-container">
-                        <table id="scanHistoryTable">
+                        <table id="scanHistoryTable" aria-label="Scan History Table">
                             <thead>
                                 <tr>
-                                    <th>IP Address</th>
-                                    <th>Risk Score</th>
-                                    <th>Detections</th>
-                                    <th>Date Scanned</th>
-                                    <th>Actions</th>
+                                    <th scope="col">IP Address</th>
+                                    <th scope="col">Risk Score</th>
+                                    <th scope="col">Detections</th>
+                                    <th scope="col">Date Scanned</th>
+                                    <th scope="col">Actions</th>
                                 </tr>
                             </thead>
                             <tbody id="scanHistoryTableBody">
@@ -94,7 +100,7 @@
                             </tbody>
                         </table>
                     </div>
-                     <p id="noHistoryMessage" class="message-box info-message" style="display:none; margin-top:15px;"><i class="fas fa-info-circle"></i> No scan history available.</p>
+                     <p id="noHistoryMessage" class="message-box info-message" style="display:none; margin-top:15px;" role="status"><i class="fas fa-info-circle"></i> No scan history available.</p>
                 </div>
             </section>
 
@@ -109,25 +115,25 @@
                     <div class="api-key-management settings-group">
                         <label for="settingsApiKeyInput">Enter your APIVoid API Key:</label>
                         <div class="api-key-container">
-                            <input type="text" id="settingsApiKeyInput" placeholder="Your APIVoid Key">
+                            <input type="text" id="settingsApiKeyInput" placeholder="Your APIVoid Key" aria-label="APIVoid API Key Input">
                             <button class="btn btn-secondary btn-small" id="settingsSaveApiKeyBtn"><i class="fas fa-save"></i> Save Key</button>
                         </div>
-                        <div id="settingsApiKeyMessages" style="margin-top:10px;"></div>
+                        <div id="settingsApiKeyMessages" style="margin-top:10px;" role="status" aria-live="polite"></div>
                         <p class="settings-note">You can obtain an API key from <a href="https://www.apivoid.com/" target="_blank" rel="noopener noreferrer">APIVoid.com</a>.</p>
                     </div>
 
                     <h2 style="margin-top: 30px;"><i class="fas fa-history"></i> Scan History</h2>
                      <div class="settings-group">
                         <label for="maxHistoryItemsInput">Max History Items (10-100):</label>
-                        <input type="number" id="maxHistoryItemsInput" min="10" max="100" value="15">
+                        <input type="number" id="maxHistoryItemsInput" min="10" max="100" value="15" aria-label="Maximum History Items">
                         <button class="btn btn-secondary btn-small" id="saveHistorySettingsBtn" style="margin-left:10px;"><i class="fas fa-save"></i> Save</button>
-                        <div id="historySettingsMessages" style="margin-top:10px;"></div>
+                        <div id="historySettingsMessages" style="margin-top:10px;" role="status" aria-live="polite"></div>
                     </div>
 
                     <h2 style="margin-top: 30px;"><i class="fas fa-palette"></i> Theme</h2>
                     <div class="settings-group">
                         <p>Current theme is set via the toggle button in the sidebar.</p>
-                        <p class="settings-note">Your theme preference is saved automatically.</p>
+                        <p class="settings-note">Your theme preference is saved automatically in your browser's local storage.</p>
                     </div>
                 </div>
             </section>
@@ -159,12 +165,12 @@
         </main>
     </div>
 
-    <!-- API Status Modal (remains the same) -->
-    <div id="apiCreditsModal" class="modal">
+    <!-- API Status Modal -->
+    <div id="apiCreditsModal" class="modal" role="dialog" aria-labelledby="apiStatusModalTitle" aria-modal="true">
         <div class="modal-content">
             <div class="modal-header">
-                <h2><i class="fas fa-info-circle"></i> API Status</h2>
-                <span class="close-btn" id="closeApiStatusModalBtn">×</span>
+                <h2 id="apiStatusModalTitle"><i class="fas fa-info-circle"></i> API Status</h2>
+                <button class="close-btn" id="closeApiStatusModalBtn" aria-label="Close API Status Modal">×</button>
             </div>
             <div class="modal-body">
                 <p>API Credits Remained: <strong id="modalCreditsRemained">N/A</strong></p>
@@ -175,15 +181,15 @@
         </div>
     </div>
 
-    <!-- Map Modal (remains the same) -->
-    <div id="mapViewModal" class="modal">
+    <!-- Map Modal -->
+    <div id="mapViewModal" class="modal" role="dialog" aria-labelledby="mapModalTitle" aria-modal="true">
         <div class="modal-content modal-content-map">
             <div class="modal-header">
-                <h2><i class="fas fa-map-marked-alt"></i> IP Geolocation</h2>
-                <span class="close-btn" id="closeMapModalBtn">×</span>
+                <h2 id="mapModalTitle"><i class="fas fa-map-marked-alt"></i> IP Geolocation</h2>
+                <button class="close-btn" id="closeMapModalBtn" aria-label="Close Map Modal">×</button>
             </div>
             <div class="modal-body" id="mapModalBody">
-                <div id="leafletMap"></div>
+                <div id="leafletMap" aria-label="Map showing IP Geolocation"></div>
             </div>
         </div>
     </div>
